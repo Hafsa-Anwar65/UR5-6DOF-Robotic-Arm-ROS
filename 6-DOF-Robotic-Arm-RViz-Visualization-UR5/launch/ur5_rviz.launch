@@ -1,0 +1,22 @@
+<launch>
+  <param name="robot_description"
+         command="$(find xacro)/xacro '$(find ur5_6dof_description)/urdf/ur5.urdf.xacro'" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+        type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0"/>
+    <param name="tf_prefix" value=""/>
+  </node>
+
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui"
+        type="joint_state_publisher_gui" output="screen">
+    <param name="rate" value="50"/>
+  </node>
+
+  <node name="static_transform_publisher" pkg="tf" type="static_transform_publisher"
+        args="0 0 0 0 0 0 world base_footprint 100" output="screen"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ur5_6dof_description)/rviz/ur5.rviz" required="true" output="screen"/>
+
+  <node name="tf_monitor" pkg="tf" type="tf_monitor" args="world ee_link" output="screen"/>
+</launch>
